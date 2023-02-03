@@ -17,8 +17,7 @@ namespace Lab0
 
         public int Count { get; private set; }
 
-        // TODO
-        public int Height => HeightRecursive(Root);
+        public int Height => IsEmpty? 0: HeightRecursive(Root);
 
         private int HeightRecursive(BinarySearchTreeNode<T> node)
         {
