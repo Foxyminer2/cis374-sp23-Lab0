@@ -378,6 +378,19 @@ namespace Lab0
                 return;
             }
 
+            if (node.Left != null && node.Right != null)
+            {
+
+                var successor = Next(node);
+
+                Remove(successor.Key);
+
+                node.Value = successor.Value;
+                node.Key = successor.Key;
+
+
+            }
+
             // 3) parent with 2 children
             // Find the node to remove
             // Find the next node (successor)
@@ -505,7 +518,14 @@ namespace Lab0
 
         private void PostOrderKeysRecursive(BinarySearchTreeNode<T> node, List<int> keys)
         {
-            
+            if (node == null)
+            {
+                return;
+            }
+
+            PostOrderKeysRecursive(node.Left, keys);
+            PostOrderKeysRecursive(node.Right, keys);
+            keys.Add(node.Key);
         }
 
         public BinarySearchTreeNode<T> MinNode(BinarySearchTreeNode<T> node)
