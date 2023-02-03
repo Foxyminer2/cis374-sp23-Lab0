@@ -59,7 +59,24 @@ namespace Lab0
         }
 
         // TODO
-        public int? MaxKey => throw new NotImplementedException();
+        public int? MaxKey => MaxKeyRecursive(Root);
+
+        private int? MaxKeyRecursive(BinarySearchTreeNode<T> node)
+        {
+            if (node == null)
+            {
+                return null;
+            }
+            else if (node.Right == null)
+            {
+                return node.Key;
+            }
+            else
+            {
+                return MaxKeyRecursive(node.Right);
+            }
+
+        }
 
         // TODO
         public double MedianKey
@@ -191,23 +208,53 @@ namespace Lab0
             }
         }
 
+    //     if (n->right != NULL)
+    //    return minValue(n->right);
+
+    //    // step 2 of the above algorithm
+    //    struct node* p = n->parent;
+    //while (p != NULL && n == p->right) {
+    //    n = p;
+    //    p = p->parent;
+    //}
+    //return p;
+
         // TODO
         public BinarySearchTreeNode<T> Next(BinarySearchTreeNode<T> node)
         {
             // find the min node in the right child's subtree
             if (node.Right != null)
             {
-
+                return MinNode(node.Right);
             }
 
-            return null;
+            var p = node.Parent;
+            while(p != null && node == p.Right)
+            {
+                node = p;
+                p = p.Parent;
+            }
+
+            return p;
 
         }
 
         // TODO
         public BinarySearchTreeNode<T> Prev(BinarySearchTreeNode<T> node)
         {
-            throw new NotImplementedException();
+            if (node.Left != null)
+            {
+                return MaxNode(node.Left);
+            }
+
+            var p = node.Parent;
+            while (p != null && node == p.Left)
+            {
+                node = p;
+                p = p.Parent;
+            }
+
+            return p;
         }
 
         // TODO
@@ -442,7 +489,19 @@ namespace Lab0
             }
         }
 
-        Tuple<int, T> IBinarySearchTree<T>.Max => throw new NotImplementedException();
+        Tuple<int, T> IBinarySearchTree<T>.Max
+        {
+            get
+            {
+                if (IsEmpty)
+                {
+                    return null;
+                }
+
+                var maxNode = MaxNode(Root);
+                return Tuple.Create(maxNode.Key, maxNode.Value);
+            }
+        }
 
         private void PostOrderKeysRecursive(BinarySearchTreeNode<T> node, List<int> keys)
         {
