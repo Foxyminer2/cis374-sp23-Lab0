@@ -315,12 +315,17 @@ namespace Lab0
                 return;
             }
 
-            Count--;
+            //Count--;
 
             // 1) leaf node
             if (node.Left == null && node.Right == null)
             {
-                if (parent.Left == node)
+                if (parent == null)
+                {
+                    // root
+                    Root = null;
+                }
+                else if (parent.Left == node)
                 {
                     parent.Left = null;
                     node.Parent = null;
@@ -331,6 +336,8 @@ namespace Lab0
                     node.Parent = null;
                 }
 
+                Count--;
+
                 return;
             }
 
@@ -339,7 +346,13 @@ namespace Lab0
             {
                 // only has a right child
                 var child = node.Right;
-                if (parent.Left == node)
+                if (parent == null)
+                {
+                    // Root
+                    Root = child;
+                    child.Parent = null;
+                }
+                else if (parent.Left == node)
                 {
                     parent.Left = child;
                     child.Parent = parent;
@@ -349,6 +362,7 @@ namespace Lab0
                     parent.Right = child;
                     child.Parent = parent;
                 }
+                Count--;
 
                 return;
             }
@@ -357,7 +371,13 @@ namespace Lab0
             {
                 // only has a left child
                 var child = node.Left;
-                if (parent.Left == node)
+                if (parent == null)
+                {
+                    // Root
+                    Root = child;
+                    child.Parent = null;
+                }
+                else if (parent.Left == node)
                 {
                     parent.Left = child;
                     child.Parent = parent;
@@ -373,6 +393,7 @@ namespace Lab0
                     node.Parent = null;
                     node.Right = null;
                 }
+                Count--;
 
                 return;
             }
@@ -381,11 +402,15 @@ namespace Lab0
             {
 
                 var successor = Next(node);
+                var successorKey = successor.Key;
 
                 Remove(successor.Key);
 
                 node.Value = successor.Value;
                 node.Key = successor.Key;
+
+                //Count--;
+                return;
 
 
             }
